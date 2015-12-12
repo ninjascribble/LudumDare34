@@ -18,16 +18,19 @@ export default class GameState extends Phaser.State {
     game.load.spritesheet('LevelTiles', 'assets/LevelTiles.png', 8, 8);
     game.load.tilemap('Level01', 'assets/Level01.csv', null, Phaser.Tilemap.CSV);
     game.load.tilemap('Level01Objects', 'assets/Level01Objects.csv', null, Phaser.Tilemap.CSV);
+    game.load.tilemap('Level02', 'assets/Level02.csv', null, Phaser.Tilemap.CSV);
+    game.load.tilemap('Level02Objects', 'assets/Level02Objects.csv', null, Phaser.Tilemap.CSV);
     game.load.spritesheet('player_01', 'assets/player_01.png', 10, 12);
     game.load.spritesheet('HeartContainers', 'assets/HeartContainers.png', 7, 6);
+    global.state = this;
   }
 
   create () {
-    levelProvider.setIndex(0);
-    levelProvider.backgroundLayer.resizeWorld();
-
     game.stage.backgroundColor = 'rgb(12, 17, 67)';
     game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    levelProvider.setIndex(0);
+    levelProvider.backgroundLayer.resizeWorld();
 
     player = actors.buildPlayer(levelProvider.player.x, levelProvider.player.y);
     enemies = game.add.group(this.game.world, 'enemies');
@@ -50,7 +53,7 @@ export default class GameState extends Phaser.State {
     game.physics.arcade.collide(player, levelProvider.backgroundLayer);
     game.physics.arcade.collide(enemies, levelProvider.backgroundLayer);
     game.physics.arcade.collide(player, levelProvider.objectsLayer, (a, b) => {
-      console.log(a, b);
+      this.nextLevel();
     });
   }
 
@@ -65,5 +68,23 @@ export default class GameState extends Phaser.State {
     }
 
     pixel.context.drawImage(game.canvas, 0, 0, game.width, game.height, 0, 0, pixel.width, pixel.height);
+  }
+
+  cleanUp () {
+    enemies.destroy(true, true);
+  }
+
+  nextLevel () {
+    this.cleanUp();
+
+    levelProvider.setIndex(levelProvider.index + 1);
+    levelProvider.backgroundLayer.resizeWorld();
+
+    player.x = levelProvider.player.x;
+    player.y = levelProvider.player.y;
+
+    levelProvider.enemies.forEach((config) => {
+      actors.buildBot(config.type, config.x, config.y, enemies);
+    });
   }
 }
