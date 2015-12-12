@@ -1,5 +1,5 @@
 import Player from '../objects/Player';
-import HealthBar from '../objects/HealthBar';
+import Hud from '../objects/Hud';
 
 const GRAVITY = 1200;
 
@@ -37,14 +37,10 @@ export default class GameState extends Phaser.State {
 
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_PLATFORMER);
 
-    let hud = this.game.add.group(null, 'hud', true);
-    let healthBar = new HealthBar(this.game, 0, 0, hud);
-
-    hud.x = 2;
-    hud.y = 2;
-
-    healthBar.setMaxHealth(3);
-    healthBar.setHealth(2);
+    this.hud = new Hud(this.game, {
+      maxHealth: 3,
+      health: 2
+    });
   }
 
   update () {

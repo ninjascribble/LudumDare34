@@ -22,12 +22,19 @@ export default class HealthBar extends Phaser.Sprite {
 
   drawHeartContainers () {
     for (let i = 0; i < this.maxHealth; i++) {
-      let container = new HeartContainer(this.game, 7 * i, 0, this.group);
-      if (this.health > i) {
-        container.full();
-      } else {
-        container.empty();
-      }
+      this.drawHeartContainer(i);
+    }
+  }
+
+  drawHeartContainer (index) {
+    let x = 7 * index + 2;
+    let y = 2;
+    let container = new HeartContainer(this.game, x, y, this.group);
+
+    if (this.health > index) {
+      container.full();
+    } else {
+      container.empty();
     }
   }
 }
