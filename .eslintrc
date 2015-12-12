@@ -20,7 +20,8 @@
     "space-in-parens": [2, "never"],
     "computed-property-spacing": [2, "never"],
     "array-bracket-spacing": [2, "never"],
-    "one-var": [2, "never"]
+    "one-var": [2, "never"],
+    "no-unused-vars": [1, { "vars": "local", "args": "none" }]
   },
   "globals": {
     "Phaser": true,
