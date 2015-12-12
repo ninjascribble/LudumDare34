@@ -39,7 +39,8 @@ const LEVELS = [{
   player: new Phaser.Point(62, 200),
   enemies: [
     { type: actors.types.DUDE02, x: 48, y: 24 },
-    { type: actors.types.DUDE02, x: 88, y: 24 }
+    { type: actors.types.DUDE02, x: 104, y: 24 },
+    { type: actors.types.DUDE02, x: 88, y: 88 }
   ]
 }];
 
@@ -64,6 +65,14 @@ export default class LevelProvider {
       this.index = LEVELS.length - this.index;
     }
 
+    if (this.backgroundLayer) {
+      this.backgroundLayer.destroy();
+    }
+
+    if (this.objectsLayer) {
+      this.objectsLayer.destroy();
+    }
+
     let level = LEVELS[this.index];
     let backgroundMap = game.add.tilemap(level.background, level.tileset.width, level.tileset.height);
     let objectsMap = game.add.tilemap(level.objects, level.tileset.width, level.tileset.height);
@@ -78,5 +87,8 @@ export default class LevelProvider {
 
     objectsMap.addTilesetImage('Objects', level.tileset.key);
     objectsMap.setCollision(level.tileset.collide);
+
+    this.objectsLayer.sendToBack();
+    this.backgroundLayer.sendToBack();
   }
 }
