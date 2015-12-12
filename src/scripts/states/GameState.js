@@ -7,7 +7,7 @@ export default class GameState extends Phaser.State {
 
   preload () {
     Phaser.game = this.game;
-    this.game.load.spritesheet('level_tiles', 'assets/level_tiles.png', 8, 8);
+    this.game.load.spritesheet('LevelTiles', 'assets/LevelTiles.png', 8, 8);
     this.game.load.tilemap('level_map', 'assets/level_tiles.csv', null, Phaser.Tilemap.CSV);
     this.game.load.tilemap('level_map_fore', 'assets/level_tiles_fore.csv', null, Phaser.Tilemap.CSV);
     this.game.load.spritesheet('player_01', 'assets/player_01.png', 10, 12);
@@ -16,24 +16,19 @@ export default class GameState extends Phaser.State {
 
   create () {
 
-    let map = this.game.add.tilemap('level_map', 8, 8);
-    let layer = map.createLayer(0);
-
-    map.addTilesetImage('Gumdrop-Level-01', 'level_tiles');
-    map.setCollisionBetween(1, 4);
-    layer.resizeWorld();
-
     this.game.stage.backgroundColor = 'rgb(12, 17, 67)';
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.physics.arcade.gravity.y = GRAVITY;
+
+    let map = this.game.add.tilemap('level_map', 8, 8);
+    let layer = map.createLayer(0);
+
+    map.addTilesetImage('Gumdrop-Level-01', 'LevelTiles');
+    map.setCollisionBetween(1, 4);
+    layer.resizeWorld();
+
     this.level = layer;
     this.player = new Player(this.game, 8, 64, this.game.world);
-
-    let map_fore = this.game.add.tilemap('level_map_fore', 8, 8);
-    let layer_fore = map_fore.createLayer(0);
-
-    map_fore.addTilesetImage('Gumdrop-Level-02', 'level_tiles');
-    layer_fore.resizeWorld();
 
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_PLATFORMER);
 
