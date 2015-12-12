@@ -2,8 +2,6 @@ import Player from '../objects/Player';
 import Hud from '../objects/Hud';
 import LevelProvider from '../services/LevelProvider';
 
-const GRAVITY = 1200;
-
 export default class GameState extends Phaser.State {
 
   preload () {
@@ -12,16 +10,16 @@ export default class GameState extends Phaser.State {
     this.game.load.tilemap('Level01', 'assets/Level01.csv', null, Phaser.Tilemap.CSV);
     this.game.load.spritesheet('player_01', 'assets/player_01.png', 10, 12);
     this.game.load.spritesheet('HeartContainers', 'assets/HeartContainers.png', 7, 6);
+    this.levelProvider = new LevelProvider(this.game);
   }
 
   create () {
 
     this.game.stage.backgroundColor = 'rgb(12, 17, 67)';
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
-    this.game.physics.arcade.gravity.y = GRAVITY;
 
-    this.level = LevelProvider.create(this.game, 0);
-    this.player = new Player(this.game, 8, 64, this.game.world);
+    this.level = this.levelProvider.build();
+    this.player = new Player(this.game, 16, 16, this.game.world);
 
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_PLATFORMER);
 
