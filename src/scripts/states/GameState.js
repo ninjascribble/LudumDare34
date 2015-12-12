@@ -6,6 +6,7 @@ import LevelProvider from '../services/LevelProvider';
 var game;
 var levelProvider;
 var player;
+var enemies;
 var hud;
 
 export default class GameState extends Phaser.State {
@@ -17,6 +18,7 @@ export default class GameState extends Phaser.State {
     game.load.spritesheet('player_01', 'assets/player_01.png', 10, 12);
     game.load.spritesheet('LevelTiles', 'assets/LevelTiles.png', 8, 8);
     game.load.tilemap('Level01', 'assets/Level01.csv', null, Phaser.Tilemap.CSV);
+    game.load.tilemap('Level01Objects', 'assets/Level01Objects.csv', null, Phaser.Tilemap.CSV);
     game.load.spritesheet('player_01', 'assets/player_01.png', 10, 12);
     game.load.spritesheet('HeartContainers', 'assets/HeartContainers.png', 7, 6);
   }
@@ -28,12 +30,12 @@ export default class GameState extends Phaser.State {
     game.stage.backgroundColor = 'rgb(12, 17, 67)';
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    this.player = actors.buildPlayer();
-    this.player.x = this.game.width / 2;
-    this.player.y = this.game.height;
-    this.enemy = actors.buildBot(actors.types.DUDE02);
-    this.enemy.x = this.game.width / 2;
-    this.enemy.y = 15;
+    player = actors.buildPlayer(levelProvider.player.x, levelProvider.player.y);
+    enemies = game.add.group(this.game.world, 'enemies');
+
+    levelProvider.enemies.forEach((config) => {
+      actors.buildBot(config.type, config.x, config.y, enemies);
+    });
 
     hud = new Hud(game, {
       maxHealth: 3,
@@ -44,13 +46,24 @@ export default class GameState extends Phaser.State {
   }
 
   update () {
+    game.physics.arcade.collide(player, enemies);
     game.physics.arcade.collide(player, levelProvider.backgroundLayer);
+    game.physics.arcade.collide(enemies, levelProvider.backgroundLayer);
+    game.physics.arcade.collide(player, levelProvider.objectsLayer, (a, b) => {
+      console.log(a, b);
+    });
   }
 
   render () {
-    //   game.world.forEach((child) => {
-    //       game.debug.body(child, 'rgba(255, 0, 0, .6)');
-    //   });
+    if (debug === true) {
+      game.world.forEach((child) => {
+        game.debug.body(child, 'rgba(0, 180, 180, .6)');
+      });
+      enemies.forEach((child) => {
+        game.debug.body(child, 'rgba(255, 0, 0, .6)');
+      });
+    }
+
     pixel.context.drawImage(game.canvas, 0, 0, game.width, game.height, 0, 0, pixel.width, pixel.height);
   }
 }
