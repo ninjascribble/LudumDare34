@@ -1,5 +1,4 @@
 import actors from '../services/actorFactory';
-import Player from '../objects/Player';
 import Hud from '../objects/Hud';
 import LevelProvider from '../services/LevelProvider';
 
