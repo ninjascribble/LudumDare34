@@ -1,3 +1,4 @@
+import actors from '../services/actorFactory';
 import Player from '../objects/Player';
 import Hud from '../objects/Hud';
 import LevelProvider from '../services/LevelProvider';
@@ -12,6 +13,8 @@ export default class GameState extends Phaser.State {
   preload () {
     game = Phaser.game = this.game;
     levelProvider = new LevelProvider(game);
+    game.load.atlas('actors', 'assets/8_bit_fantasy/actors.png', 'assets/8_bit_fantasy/actors.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
+    game.load.spritesheet('player_01', 'assets/player_01.png', 10, 12);
     game.load.spritesheet('LevelTiles', 'assets/LevelTiles.png', 8, 8);
     game.load.tilemap('Level01', 'assets/Level01.csv', null, Phaser.Tilemap.CSV);
     game.load.spritesheet('player_01', 'assets/player_01.png', 10, 12);
@@ -25,7 +28,12 @@ export default class GameState extends Phaser.State {
     game.stage.backgroundColor = 'rgb(12, 17, 67)';
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    player = new Player(game, levelProvider.playerOrigin.x, levelProvider.playerOrigin.y, game.world);
+    this.player = actors.buildPlayer();
+    this.player.x = this.game.width / 2;
+    this.player.y = this.game.height;
+    this.enemy = actors.buildBot(actors.types.DUDE02);
+    this.enemy.x = this.game.width / 2;
+    this.enemy.y = 15;
 
     hud = new Hud(game, {
       maxHealth: 3,
@@ -37,18 +45,6 @@ export default class GameState extends Phaser.State {
 
   update () {
     game.physics.arcade.collide(player, levelProvider.backgroundLayer);
-
-    if (game.input.keyboard.downDuration(Phaser.Keyboard.UP)) {
-      player.jump();
-    }
-
-    if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-      player.moveRight();
-    } else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-      player.moveLeft();
-    } else {
-      player.idle();
-    }
   }
 
   render () {

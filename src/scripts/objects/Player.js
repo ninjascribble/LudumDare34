@@ -1,47 +1,41 @@
-const ASSET_KEY = 'player_01';
+import Actor from './Actor';
+import actors from '../services/actorFactory';
 
-export default class Player extends Phaser.Sprite {
+export default class Player extends Actor {
 
-  constructor (game, x, y, group) {
-    super(game, x, y, ASSET_KEY, 1);
-    game.physics.arcade.enableBody(this);
-    this.body.setSize(4, 11, 0, 0);
-    this.body.collideWorldBounds = true;
-    this.anchor.setTo(0.5, 1);
-    this.animations.add('idle', [0, 1], 5, true);
-    this.animations.add('walk', [3, 4, 5], 6, true);
-    this.idle();
-    group.add(this);
+  constructor (x, y, group) {
+    super(x, y, actors.types.DUDE04, group);
   }
 
-  idle () {
-    this.animations.play('idle');
-  }
+  update () {
+    super.update();
 
-  moveLeft () {
-    this.scale.x = Math.abs(this.scale.x) * -1;
-    this.body.velocity.x = -60;
-    this.animations.play('walk');
-  }
+    if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+      this.moveRight();
+    }
 
-  moveRight () {
-    this.scale.x = Math.abs(this.scale.x);
-    this.body.velocity.x = 60;
-    this.animations.play('walk');
-  }
+    if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+      this.moveLeft();
+    }
 
-  jump () {
-    if (this.body.onFloor()) {
-      this.body.velocity.y = -280;
+    if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+      this.moveUp();
+    }
+
+    if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
+      this.moveDown();
+    }
+
+    if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+      this.attack();
+    }
+
+    if (!game.input.keyboard.isDown(Phaser.Keyboard.DOWN) &&
+        !game.input.keyboard.isDown(Phaser.Keyboard.UP) &&
+        !game.input.keyboard.isDown(Phaser.Keyboard.LEFT) &&
+        !game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+      this.idle();
     }
   }
 
-  preUpdate () {
-    super.preUpdate();
-    if (Math.abs(this.body.velocity.x) > 1) {
-      this.body.velocity.x = this.game.physics.arcade.computeVelocity(1, this.body, this.body.velocity.x, -24, -24, 0);
-    } else {
-      this.body.velocity.x = 0;
-    }
-  }
 }

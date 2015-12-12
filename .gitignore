@@ -4,3 +4,5 @@ build
 *.tmp
 assets_raw
 .DS_Store
+man0*
+man1*
