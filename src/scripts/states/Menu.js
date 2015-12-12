@@ -2,7 +2,7 @@ export default class Menu extends Phaser.State {
 
   create () {
     global.pixel = {
-      scale: 6,
+      scale: 3,
       canvas: null,
       context: null,
       width: 0,
