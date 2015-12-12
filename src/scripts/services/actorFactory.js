@@ -15,14 +15,13 @@ var types = {
 };
 
 export default {
-  buildBot: (type, group) => {
-    return new Bot(game.width / 2, 15, type, group);
+  buildBot: (type, x, y, group) => {
+    return new Bot(x, y, type, group);
   },
 
-  buildPlayer: (group) => {
-    return new Player(game.width / 2, game.height, group);
+  buildPlayer: (x, y, group) => {
+    return new Player(x, y, group);
   },
 
   types: types
 };
-

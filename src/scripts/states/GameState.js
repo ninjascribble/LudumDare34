@@ -6,6 +6,7 @@ import LevelProvider from '../services/LevelProvider';
 var game;
 var levelProvider;
 var player;
+var enemies;
 var hud;
 
 export default class GameState extends Phaser.State {
@@ -29,12 +30,12 @@ export default class GameState extends Phaser.State {
     game.stage.backgroundColor = 'rgb(12, 17, 67)';
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    this.player = actors.buildPlayer();
-    this.player.x = this.game.width / 2;
-    this.player.y = this.game.height;
-    this.enemy = actors.buildBot(actors.types.DUDE02);
-    this.enemy.x = this.game.width / 2;
-    this.enemy.y = 15;
+    player = actors.buildPlayer(levelProvider.player.x, levelProvider.player.y);
+    enemies = game.add.group(this.game.world, 'enemies');
+
+    levelProvider.enemies.forEach((config) => {
+      actors.buildBot(config.type, config.x, config.y, enemies);
+    });
 
     hud = new Hud(game, {
       maxHealth: 3,
@@ -46,6 +47,7 @@ export default class GameState extends Phaser.State {
 
   update () {
     game.physics.arcade.collide(player, levelProvider.backgroundLayer);
+    game.physics.arcade.collide(enemies, levelProvider.backgroundLayer);
   }
 
   render () {

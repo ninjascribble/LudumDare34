@@ -1,3 +1,5 @@
+import actors from './actorFactory';
+
 const TILESETS = [{
   key: 'LevelTiles',
   width: 8,
@@ -14,7 +16,11 @@ const LEVELS = [{
   background: 'Level01',
   objects: 'Level01Objects',
   tileset: TILESETS[0],
-  playerOrigin: new Phaser.Point(16, 16)
+  player: new Phaser.Point(64, 72),
+  enemies: [
+    { type: actors.types.DUDE02, x: 24, y: 16 },
+    { type: actors.types.DUDE02, x: 104, y: 16 }
+  ]
 }];
 
 export default class LevelProvider {
@@ -42,7 +48,8 @@ export default class LevelProvider {
     let backgroundMap = game.add.tilemap(level.background, level.tileset.width, level.tileset.height);
     let objectsMap = game.add.tilemap(level.objects, level.tileset.width, level.tileset.height);
 
-    this.playerOrigin = level.playerOrigin;
+    this.player = level.player;
+    this.enemies = level.enemies;
     this.backgroundLayer = backgroundMap.createLayer(0);
     this.objectsLayer = objectsMap.createLayer(0);
 
