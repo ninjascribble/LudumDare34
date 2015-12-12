@@ -17,6 +17,7 @@ export default class GameState extends Phaser.State {
     game.load.spritesheet('player_01', 'assets/player_01.png', 10, 12);
     game.load.spritesheet('LevelTiles', 'assets/LevelTiles.png', 8, 8);
     game.load.tilemap('Level01', 'assets/Level01.csv', null, Phaser.Tilemap.CSV);
+    game.load.tilemap('Level01Objects', 'assets/Level01Objects.csv', null, Phaser.Tilemap.CSV);
     game.load.spritesheet('player_01', 'assets/player_01.png', 10, 12);
     game.load.spritesheet('HeartContainers', 'assets/HeartContainers.png', 7, 6);
   }
