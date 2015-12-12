@@ -84,7 +84,7 @@ export default class GameState extends Phaser.State {
     player.y = levelProvider.player.y;
 
     levelProvider.enemies.forEach((config) => {
-      actors.buildBot(config.type, config.x, config.y, enemies);
+      actors.buildBot(config, enemies);
     });
   }
 }
