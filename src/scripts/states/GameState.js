@@ -47,6 +47,7 @@ export default class GameState extends Phaser.State {
 
   update () {
     game.physics.arcade.collide(player, enemies);
+    game.physics.arcade.collide(enemies, enemies);
     game.physics.arcade.collide(player, levelProvider.backgroundLayer);
     game.physics.arcade.collide(enemies, levelProvider.backgroundLayer);
     game.physics.arcade.collide(player, levelProvider.objectsLayer, (a, b) => {
