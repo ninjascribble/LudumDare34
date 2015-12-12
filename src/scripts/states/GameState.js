@@ -1,4 +1,5 @@
 import Player from '../objects/Player';
+import Hud from '../objects/Hud';
 
 const GRAVITY = 1200;
 
@@ -10,6 +11,7 @@ export default class GameState extends Phaser.State {
     this.game.load.tilemap('level_map', 'assets/level_tiles.csv', null, Phaser.Tilemap.CSV);
     this.game.load.tilemap('level_map_fore', 'assets/level_tiles_fore.csv', null, Phaser.Tilemap.CSV);
     this.game.load.spritesheet('player_01', 'assets/player_01.png', 10, 12);
+    this.game.load.spritesheet('HeartContainers', 'assets/HeartContainers.png', 7, 6);
   }
 
   create () {
@@ -34,6 +36,11 @@ export default class GameState extends Phaser.State {
     layer_fore.resizeWorld();
 
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_PLATFORMER);
+
+    this.hud = new Hud(this.game, {
+      maxHealth: 3,
+      health: 2
+    });
   }
 
   update () {
