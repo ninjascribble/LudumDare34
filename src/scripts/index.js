@@ -19,3 +19,4 @@ class Game extends Phaser.Game {
 }
 
 global.game = new Game();
+global.debug = false;

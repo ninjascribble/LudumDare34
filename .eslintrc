@@ -26,6 +26,7 @@
   "globals": {
     "Phaser": true,
     "game": true,
-    "pixel": true
+    "pixel": true,
+    "debug": true
   }
 }

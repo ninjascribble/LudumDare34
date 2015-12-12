@@ -57,5 +57,6 @@ export default class LevelProvider {
     backgroundMap.setCollision(level.tileset.collide);
 
     objectsMap.addTilesetImage('Objects', level.tileset.key);
+    objectsMap.setCollision(level.tileset.collide);
   }
 }

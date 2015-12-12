@@ -2,7 +2,7 @@ export default class Actor extends Phaser.Sprite {
   constructor (x, y, animationKey, group) {
     super(game, x, y, 'actors', 1);
     game.physics.arcade.enableBody(this);
-    this.body.setSize(4, 11, 0, 0);
+    this.body.setSize(4, 8, 0, 0);
     this.body.collideWorldBounds = true;
     this.anchor.setTo(0.5, 1);
     const idleFrames = Phaser.Animation.generateFrameNames(animationKey, 1, 2, '', 2);

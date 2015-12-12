@@ -46,14 +46,24 @@ export default class GameState extends Phaser.State {
   }
 
   update () {
+    game.physics.arcade.collide(player, enemies);
     game.physics.arcade.collide(player, levelProvider.backgroundLayer);
     game.physics.arcade.collide(enemies, levelProvider.backgroundLayer);
+    game.physics.arcade.collide(player, levelProvider.objectsLayer, (a, b) => {
+      console.log(a, b);
+    });
   }
 
   render () {
-    //   game.world.forEach((child) => {
-    //       game.debug.body(child, 'rgba(255, 0, 0, .6)');
-    //   });
+    if (debug === true) {
+      game.world.forEach((child) => {
+        game.debug.body(child, 'rgba(0, 180, 180, .6)');
+      });
+      enemies.forEach((child) => {
+        game.debug.body(child, 'rgba(255, 0, 0, .6)');
+      });
+    }
+
     pixel.context.drawImage(game.canvas, 0, 0, game.width, game.height, 0, 0, pixel.width, pixel.height);
   }
 }
