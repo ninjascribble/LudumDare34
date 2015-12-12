@@ -15,8 +15,8 @@ var types = {
 };
 
 export default {
-  buildBot: (type, x, y, group) => {
-    return new Bot(x, y, type, group);
+  buildBot: (config, group) => {
+    return new Bot(config.x, config.y, config.type, config.defaultBehavior, group);
   },
 
   buildPlayer: (x, y, group) => {

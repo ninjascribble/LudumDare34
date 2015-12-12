@@ -19,7 +19,18 @@ const LEVELS = [{
   player: new Phaser.Point(64, 72),
   enemies: [
     { type: actors.types.DUDE02, x: 24, y: 16 },
-    { type: actors.types.DUDE02, x: 104, y: 16 }
+    {
+      type: actors.types.DUDE02,
+      x: 104,
+      y: 16,
+      defaultBehavior: {
+        type: 'PATROL',
+        patrolRoute: [
+          new Phaser.Point(32, 16),
+          new Phaser.Point(104, 16)
+        ]
+      }
+    }
   ]
 }];
 

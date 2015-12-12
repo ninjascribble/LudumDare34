@@ -33,7 +33,7 @@ export default class GameState extends Phaser.State {
     enemies = game.add.group(this.game.world, 'enemies');
 
     levelProvider.enemies.forEach((config) => {
-      actors.buildBot(config.type, config.x, config.y, enemies);
+      actors.buildBot(config, enemies);
     });
 
     hud = new Hud(game, {
