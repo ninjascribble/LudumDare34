@@ -41,16 +41,21 @@ export default class GameState extends Phaser.State {
       actors.buildBot(config, enemies);
     });
 
-    hud = new Hud(game, {
-      maxHealth: 3,
-      health: 2
-    });
+    hud = new Hud(game);
+    this.updateHud();
 
     game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER);
   }
 
   update () {
-    game.physics.arcade.collide(player, enemies);
+    if (player.alive !== true) {
+      this.game.state.start('GameState', true, true);
+    }
+
+    game.physics.arcade.collide(player, enemies, (_, enemy) => {
+      player.takeDamage(enemy.atk);
+      this.updateHud();
+    });
     game.physics.arcade.collide(enemies, enemies);
     game.physics.arcade.collide(player, levelProvider.backgroundLayer);
     game.physics.arcade.collide(enemies, levelProvider.backgroundLayer);
@@ -70,6 +75,11 @@ export default class GameState extends Phaser.State {
     }
 
     pixel.context.drawImage(game.canvas, 0, 0, game.width, game.height, 0, 0, pixel.width, pixel.height);
+  }
+
+  updateHud () {
+    hud.healthBar.setMaxHealth(player.maxHealth);
+    hud.healthBar.setHealth(player.health);
   }
 
   cleanUp () {

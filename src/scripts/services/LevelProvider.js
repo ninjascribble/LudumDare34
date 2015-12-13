@@ -20,8 +20,8 @@ const LEVELS = [{
   enemies: [
     {
       type: actors.types.DUDE02,
-      x: 24,
-      y: 16,
+      x: 62,
+      y: 64,
       defaultBehavior: {
         type: 'WATCH'
       }

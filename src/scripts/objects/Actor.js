@@ -34,6 +34,12 @@ export default class Actor extends Phaser.Sprite {
     this.animations.add('attack', attackFrames, 6, false);
     this.idle();
 
+    this.invincible = false;
+    this.stunned = false;
+    this.maxHealth = 1;
+    this.health = 1;
+    this.atk = 1;
+
     if (group) {
       group.add(this);
     } else {
@@ -46,29 +52,103 @@ export default class Actor extends Phaser.Sprite {
   }
 
   moveLeft () {
-    this.scale.x = Math.abs(this.scale.x) * -1;
-    this.body.velocity.x = -60;
-    this.animations.play('walk');
+    if (this.stunned !== true) {
+      this.scale.x = Math.abs(this.scale.x) * -1;
+      this.body.velocity.x = -60;
+      this.animations.play('walk');
+    }
   }
 
   moveRight () {
-    this.scale.x = Math.abs(this.scale.x);
-    this.body.velocity.x = 60;
-    this.animations.play('walk');
+    if (this.stunned !== true) {
+      this.scale.x = Math.abs(this.scale.x);
+      this.body.velocity.x = 60;
+      this.animations.play('walk');
+    }
   }
 
   moveUp () {
-    this.body.velocity.y = -60;
-    this.animations.play('walkUp');
+    if (this.stunned !== true) {
+      this.body.velocity.y = -60;
+      this.animations.play('walkUp');
+    }
   }
 
   moveDown () {
-    this.body.velocity.y = 60;
-    this.animations.play('walk');
+    if (this.stunned !== true) {
+      this.body.velocity.y = 60;
+      this.animations.play('walk');
+    }
   }
 
   attack () {
-    this.animations.play('attack');
+    if (this.stunned !== true) {
+      this.animations.play('attack');
+    }
+  }
+
+  takeDamage (num) {
+
+    if (this.invincible === true || this.alive !== true) {
+      return false;
+    }
+
+    this.health -= num;
+    this.knockBack();
+    this.stun(500);
+    this.turnInvincible(1000);
+
+    return true;
+  }
+
+  knockBack () {
+    let x = 0;
+    let y = 0;
+
+    if (this.body.touching.up) {
+      y = 16;
+    }
+    if (this.body.touching.right) {
+      x = -16;
+    }
+    if (this.body.touching.down) {
+      y = -16;
+    }
+    if (this.body.touching.left) {
+      x = 16;
+    }
+
+    let tween = this.game.add.tween(this).to({
+      x: this.x + x,
+      y: this.y + y
+    }, 100);
+
+    tween.onComplete.add(() => {
+      if (this.health <= 0) {
+        this.kill();
+      }
+    });
+
+    tween.start();
+  }
+
+  stun (ms) {
+    this.stunned = true;
+    this.body.velocity.x = 0;
+    this.body.velocity.y = 0;
+    this.game.time.events.add(ms, () => {
+      this.stunned = false;
+    });
+  }
+
+  turnInvincible (ms) {
+    let tween = this.game.add.tween(this).to({ alpha: 0 }, 100, Phaser.Easing.Linear.None, true, 0, 1000, true);
+    this.invincible = true;
+    this.game.time.events.add(ms, () => {
+      tween.stop();
+      this.invincible = false;
+      this.alpha = 1;
+    });
   }
 
   preUpdate () {

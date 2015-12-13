@@ -6,11 +6,11 @@ export default class Hud extends Phaser.Group {
     super(game, null, 'hud', true);
     this.healthBar = new HealthBar(this.game, 2, 2, this);
 
-    if (config.maxHealth) {
+    if (config && config.maxHealth) {
       this.healthBar.setMaxHealth(config.maxHealth);
     }
 
-    if (config.health) {
+    if (config && config.health) {
       this.healthBar.setHealth(config.health);
     }
   }
