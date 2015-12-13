@@ -16,7 +16,7 @@ const LEVELS = [{
   background: 'Level01',
   objects: 'Level01Objects',
   tileset: TILESETS[0],
-  player: new Phaser.Point(62, 200),
+  player: new Phaser.Point(24, 454),
   enemies: [
     {
       type: actors.types.DUDE02,
