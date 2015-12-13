@@ -16,7 +16,7 @@ const types = {
 export default {
   get: (config) => {
     if (!config) {
-      return new Behavior({ type: 'WATCH' });
+      return new Watch({ player: player });
     }
 
     config.player = player;
