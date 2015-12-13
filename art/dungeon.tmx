@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="8" tileheight="8" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="8" tileheight="8" nextobjectid="4">
+ <properties>
+  <property name="playerX" value="24"/>
+  <property name="playerY" value="454"/>
+ </properties>
  <tileset firstgid="1" name="LevelTiles" tilewidth="8" tileheight="8" tilecount="78">
   <image source="../src/assets/LevelTiles.png" trans="00ff00" width="48" height="104"/>
   <tile id="30">
@@ -74,6 +78,9 @@
     <frame tileid="40" duration="300"/>
    </animation>
   </tile>
+  <tile id="60">
+   <objectgroup draworder="index"/>
+  </tile>
  </tileset>
  <layer name="Background" width="60" height="60">
   <data encoding="csv">
@@ -139,4 +146,12 @@
 14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,37,31,31,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13
 </data>
  </layer>
+ <objectgroup name="Actors">
+  <object id="2" type="PATROL" x="16" y="314">
+   <properties>
+    <property name="Actor" value="DUDE02"/>
+   </properties>
+   <polyline points="0,0 38.6667,0"/>
+  </object>
+ </objectgroup>
 </map>

@@ -14,11 +14,9 @@ export default class GameState extends Phaser.State {
   preload () {
     game = Phaser.game = this.game;
     levelProvider = new LevelProvider(game);
-    game.load.atlas('actors', 'assets/8_bit_fantasy/actors.png', 'assets/8_bit_fantasy/actors.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
-    game.load.spritesheet('player_01', 'assets/player_01.png', 10, 12);
     game.load.image('LevelTiles', 'assets/LevelTiles.png');
     game.load.tilemap('Level01', 'assets/Level01.json', null, Phaser.Tilemap.TILED_JSON);
-    game.load.spritesheet('player_01', 'assets/player_01.png', 10, 12);
+    game.load.atlas('actors', 'assets/8_bit_fantasy/actors.png', 'assets/8_bit_fantasy/actors.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
     game.load.spritesheet('HeartContainers', 'assets/HeartContainers.png', 7, 6);
     global.state = this;
   }

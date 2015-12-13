@@ -9,30 +9,7 @@ const TILESETS = [{
 
 const LEVELS = [{
   background: 'Level01',
-  tileset: TILESETS[0],
-  player: new Phaser.Point(24, 454),
-  enemies: [
-    {
-      type: actors.types.DUDE02,
-      x: 62,
-      y: 64,
-      defaultBehavior: {
-        type: 'WATCH'
-      }
-    },
-    {
-      type: actors.types.DUDE02,
-      x: 104,
-      y: 16,
-      defaultBehavior: {
-        type: 'PATROL',
-        patrolRoute: [
-          new Phaser.Point(32, 16),
-          new Phaser.Point(104, 16)
-        ]
-      }
-    }
-  ]
+  tileset: TILESETS[0]
 }];
 
 export default class LevelProvider {
@@ -63,8 +40,10 @@ export default class LevelProvider {
     let level = LEVELS[this.index];
     let backgroundMap = game.add.tilemap(level.background, level.tileset.width, level.tileset.height);
 
-    this.player = level.player;
-    this.enemies = level.enemies;
+    console.log(backgroundMap);
+
+    this.player = playerProperties(backgroundMap);
+    this.enemies = enemyProperties(backgroundMap);
     this.backgroundLayer = backgroundMap.createLayer(0);
 
     backgroundMap.addTilesetImage(level.tileset.key, level.tileset.key);
@@ -79,4 +58,47 @@ export default class LevelProvider {
 
     this.backgroundLayer.sendToBack();
   }
+}
+
+function playerProperties (map) {
+  return {
+    x: parseInt(map.properties.playerX, 10),
+    y: parseInt(map.properties.playerY, 10)
+  };
+}
+
+function enemyProperties (map) {
+  let result = [];
+
+  map.objects.Actors.forEach((actor) => {
+    result.push({
+      type: actors.types[actor.properties.Actor],
+      x: actor.x,
+      y: actor.y,
+      defaultBehavior: behaviorProperties(actor)
+    });
+  });
+
+  console.log(result);
+
+  return result;
+}
+
+function behaviorProperties (behavior) {
+  let result = { type: behavior.type };
+
+  switch (behavior.type) {
+
+    case 'PATROL':
+      result.patrolRoute = behavior.polyline.map((polyline) => {
+        return new Phaser.Point(behavior.x + polyline[0], behavior.y + polyline[1]);
+      });
+      break;
+
+    case 'WATCH':
+    default:
+      break;
+  }
+
+  return result;
 }
