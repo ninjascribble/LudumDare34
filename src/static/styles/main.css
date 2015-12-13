@@ -12,6 +12,7 @@ body {
   width: 800px;
   margin: 0px auto;
   -webkit-font-smoothing: antialiased;
+  overflow: hidden;
 }
 a {
   color: rgba(0, 180, 180, .6);

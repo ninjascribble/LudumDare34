@@ -1,6 +1,7 @@
 import actors from '../services/actorFactory';
 import Hud from '../objects/Hud';
 import LevelProvider from '../services/LevelProvider';
+import behaviors from '../objects/behaviors';
 
 var game;
 var levelProvider;
@@ -33,6 +34,7 @@ export default class GameState extends Phaser.State {
     levelProvider.backgroundLayer.resizeWorld();
 
     player = actors.buildPlayer(levelProvider.player.x, levelProvider.player.y);
+    behaviors.registerPlayer(player);
     enemies = game.add.group(this.game.world, 'enemies');
 
     levelProvider.enemies.forEach((config) => {

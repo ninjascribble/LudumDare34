@@ -1,6 +1,6 @@
-import Behavior from './Behavior';
+import Watch from './Watch';
 
-export default class Patrol extends Behavior {
+export default class Patrol extends Watch {
   constructor (config) {
     super(config);
     this.cachedRoute = config.patrolRoute;
@@ -18,6 +18,7 @@ export default class Patrol extends Behavior {
   }
 
   update (actor) {
+    super.update(actor);
     if (this.currentTarget.isZero() || actor.position.distance(this.currentTarget) < 2) {
       this.currentTarget = this.patrolRoute.shift();
       if (!this.currentTarget) {

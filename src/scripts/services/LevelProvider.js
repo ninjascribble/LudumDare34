@@ -18,7 +18,14 @@ const LEVELS = [{
   tileset: TILESETS[0],
   player: new Phaser.Point(62, 200),
   enemies: [
-    { type: actors.types.DUDE02, x: 24, y: 16 },
+    {
+      type: actors.types.DUDE02,
+      x: 24,
+      y: 16,
+      defaultBehavior: {
+        type: 'WATCH'
+      }
+    },
     {
       type: actors.types.DUDE02,
       x: 104,
