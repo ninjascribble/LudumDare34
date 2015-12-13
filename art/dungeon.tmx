@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="60" height="60" tilewidth="8" tileheight="8" backgroundcolor="#71b9f8">
+ <tileset firstgid="1" name="LevelTiles" tilewidth="8" tileheight="8">
+  <image source="../src/assets/LevelTiles.png" trans="00ff00" width="48" height="104"/>
+ </tileset>
+ <layer name="Floor/Walls" width="60" height="60">
+  <data encoding="base64" compression="zlib">
+   eJzdmVtv2kAQhVd5yguVEqmBJE0TnAYo//8HFkse6Xh85rKLbaI+HIG9tvG3c93lsZTy2KDDRe8XfQzqvz/MrNNF3UX74bNrfFetN0dsXHiRVXj/Kp0HbQdZx2d1H+PdD7+9VToO157IGAp5fxt6I+OaVyS8f4h2hj7hmk849uy7Jc/ZO78hyvAyWX6CvMiR5UXmB+d3GC/j13OQ4a2Zj/4dz8pOGV68Hnk93xSmznhuR8aX4N0Se0W20POzg2dZ9+i4Rrt2ZRoHjNfLZxlenHtLkb1F3rOQ0+Pt1Ljm8fJzhlfeMxurEXMUm8iLzJ1xfil/9myL7B5T9KyMjVvy85y8Nco+y8tZGV7m41nmW/DWyOLVPUaWGetRa3zqeqRjdile1mdFfWnUD2t7sXF2va4xFo+VpzRvtv5kemvsoZHBqi/92BGuOZPrI45dmdZbrLvMvi31h12LdpF39mJR81qxG+UkPSfZ/or1IBZ/C6/2VVkXRLwZsb4qqr+MwWJmvRl7723xebV9M32ax4z9SGu+iuYB49ezU4Z3KTFett6tsTvz3bX8uYW3JjdleA8L8LLcW8PryWNjvqBraob3SO6LeueoR7b0BTqoY2SurVP4nIx9Rbg/Jba0WK36egSdynh/S/YYca9RjpG5Nm9/lfE+nsW7LeN9Ktyv0esfLcYqz2Jr4H2Z7rkhb/95KFOfiPYHhFee5fHuhvmX99G8+p1ZT4ms2v76Ps3HhMwYs94e7qGM96Ujf2a82p5ez8T2btl35sfyiWPCnM3llj+z/uMItkBe7dNWzOJ8efbtDHsyvVfy4v50pn9m9s3m41MZMzFuOdb/iWhGtLcXu7pHw/9bvL4D7WvxRjVVx63mtPJVxM7WEShm3/6+TZn6sXzfEN4a5scyjgfGiee9PKXZa9ZNX3Cf8LL33QySfHMsU9+JJPEQ2Vb8WecoNgeWfRkr1iO0L+MVGyOz9AjYM1g6lnHNZbkKuS0+5JTvUcyKpE+TZ3u8jNmqJYyDxa133stR+pz0nKInEPaimKsyvJoZ/TPDadmW3af7SStnse/Iaz0ny6uZa8VylsfLmDxbvytePdbCuyvTXB4JmbHHsmzv2bfXD0c/gVePYb/Rwputv8zOXvx6PKJXR78G4bn+nmw9mps3UsSjuTJa277avz3fF94anhre1vit5c0cL82brb//A+/a8atztVXb+ne7N/TqjN07c3UL+1rxasVvi67h1bZguVafj67T0v9TXOvP1r1Yl5+GY8ZrrRH1+Y1zXbT2WoP3iSia+1Yfz6w1Wf2dk1fylawdamNyTt4562/E+1H8+F3avtn47c/dwfm74Rzjwvt1/xzlqzX8OcuLfaTkYsu+eF22f25d97EcfW38Wudq/Tlj3xahr84Rv3PxfiR4W3PYNfFrrQFZrEbX1fQbS/Na8fusFMV0tFbMrI/W4mXx2zO+gJ4d3myd0utfrz9c2r46fjXvC2GrWfdb/uyt29aMX8177RoR85XYdyl/9vpSL34j3lp/Xis/R7bX62HhlXebi/e75CsrfqUXmpM36q9uVY+WEMvP30H/ABwKYhs=
+  </data>
+ </layer>
+ <layer name="Objects" width="60" height="60">
+  <data encoding="base64" compression="zlib">
+   eJzt0jsKACEMBFCvtB/3/kdbwdpGUqh5DwZSTDOQUgAAAAAAAAAAAAC6p+UN7K2utnyBPdZ2DW6AzO6J7CzbXs6W7Z+z7YUoPxdODC8=
+  </data>
+ </layer>
+</map>

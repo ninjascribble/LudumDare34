@@ -44,7 +44,7 @@ export default class GameState extends Phaser.State {
     hud = new Hud(game);
     this.updateHud();
 
-    game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER);
+    game.camera.follow(player, Phaser.Camera.FOLLOW_LOCKON);
   }
 
   update () {
