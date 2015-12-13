@@ -4,12 +4,7 @@ const TILESETS = [{
   key: 'LevelTiles',
   width: 8,
   height: 8,
-  collide: [
-    7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 30,
-    31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41,
-    42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52,
-    53, 54, 55, 56, 57, 58, 59
-  ]
+  collide: [[1, 18], [31, 54]]
 }];
 
 const LEVELS = [{
@@ -73,7 +68,14 @@ export default class LevelProvider {
     this.backgroundLayer = backgroundMap.createLayer(0);
 
     backgroundMap.addTilesetImage(level.tileset.key, level.tileset.key);
-    backgroundMap.setCollision(level.tileset.collide);
+
+    level.tileset.collide.forEach((obj) => {
+      if (obj instanceof Array) {
+        backgroundMap.setCollisionBetween(obj[0], obj[1]);
+      } else {
+        backgroundMap.setCollision(obj);
+      }
+    });
 
     this.backgroundLayer.sendToBack();
   }
