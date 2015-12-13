@@ -63,8 +63,8 @@ export default class LevelProvider {
 
     level.tileset.callbacks.forEach((obj) => {
       obj.indexes.forEach((i) => {
-        backgroundMap.setTileIndexCallback(i, () => {
-          console.info(obj.event);
+        backgroundMap.setTileIndexCallback(i, (sprite, tile) => {
+          sprite.takeDamage(tile.properties.atk || 0);
         });
       });
     });
