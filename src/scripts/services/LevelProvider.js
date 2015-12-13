@@ -4,51 +4,12 @@ const TILESETS = [{
   key: 'LevelTiles',
   width: 8,
   height: 8,
-  collide: [
-    7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 30,
-    31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41,
-    42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52,
-    53, 54, 55, 56, 57, 58, 59
-  ]
+  collide: [[1, 18], [31, 54]]
 }];
 
 const LEVELS = [{
   background: 'Level01',
-  objects: 'Level01Objects',
-  tileset: TILESETS[0],
-  player: new Phaser.Point(62, 200),
-  enemies: [
-    {
-      type: actors.types.DUDE02,
-      x: 62,
-      y: 64,
-      defaultBehavior: {
-        type: 'WATCH'
-      }
-    },
-    {
-      type: actors.types.DUDE02,
-      x: 104,
-      y: 16,
-      defaultBehavior: {
-        type: 'PATROL',
-        patrolRoute: [
-          new Phaser.Point(32, 16),
-          new Phaser.Point(104, 16)
-        ]
-      }
-    }
-  ]
-}, {
-  background: 'Level02',
-  objects: 'Level02Objects',
-  tileset: TILESETS[0],
-  player: new Phaser.Point(62, 200),
-  enemies: [
-    { type: actors.types.DUDE02, x: 48, y: 24 },
-    { type: actors.types.DUDE02, x: 104, y: 24 },
-    { type: actors.types.DUDE02, x: 88, y: 88 }
-  ]
+  tileset: TILESETS[0]
 }];
 
 export default class LevelProvider {
@@ -76,26 +37,68 @@ export default class LevelProvider {
       this.backgroundLayer.destroy();
     }
 
-    if (this.objectsLayer) {
-      this.objectsLayer.destroy();
-    }
-
     let level = LEVELS[this.index];
     let backgroundMap = game.add.tilemap(level.background, level.tileset.width, level.tileset.height);
-    let objectsMap = game.add.tilemap(level.objects, level.tileset.width, level.tileset.height);
 
-    this.player = level.player;
-    this.enemies = level.enemies;
+    console.log(backgroundMap);
+
+    this.player = playerProperties(backgroundMap);
+    this.enemies = enemyProperties(backgroundMap);
     this.backgroundLayer = backgroundMap.createLayer(0);
-    this.objectsLayer = objectsMap.createLayer(0);
 
-    backgroundMap.addTilesetImage('Background', level.tileset.key);
-    backgroundMap.setCollision(level.tileset.collide);
+    backgroundMap.addTilesetImage(level.tileset.key, level.tileset.key);
 
-    objectsMap.addTilesetImage('Objects', level.tileset.key);
-    objectsMap.setCollision(level.tileset.collide);
+    level.tileset.collide.forEach((obj) => {
+      if (obj instanceof Array) {
+        backgroundMap.setCollisionBetween(obj[0], obj[1]);
+      } else {
+        backgroundMap.setCollision(obj);
+      }
+    });
 
-    this.objectsLayer.sendToBack();
     this.backgroundLayer.sendToBack();
   }
+}
+
+function playerProperties (map) {
+  return {
+    x: parseInt(map.properties.playerX, 10),
+    y: parseInt(map.properties.playerY, 10)
+  };
+}
+
+function enemyProperties (map) {
+  let result = [];
+
+  map.objects.Actors.forEach((actor) => {
+    result.push({
+      type: actors.types[actor.properties.Actor],
+      x: actor.x,
+      y: actor.y,
+      defaultBehavior: behaviorProperties(actor)
+    });
+  });
+
+  console.log(result);
+
+  return result;
+}
+
+function behaviorProperties (behavior) {
+  let result = { type: behavior.type };
+
+  switch (behavior.type) {
+
+    case 'PATROL':
+      result.patrolRoute = behavior.polyline.map((polyline) => {
+        return new Phaser.Point(behavior.x + polyline[0], behavior.y + polyline[1]);
+      });
+      break;
+
+    case 'WATCH':
+    default:
+      break;
+  }
+
+  return result;
 }

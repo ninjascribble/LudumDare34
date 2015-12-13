@@ -2,10 +2,14 @@ import Bot from '../objects/Bot';
 import Player from '../objects/Player';
 
 var types = {
+
+  // Player
+  DUDE04: 'man04_',
+
+  // Others
   DUDE01: 'man01_',
   DUDE02: 'man02_',
   DUDE03: 'man03_',
-  DUDE04: 'man04_',
   DUDE05: 'man05_',
   DUDE06: 'man06_',
   DUDE07: 'man07_',
