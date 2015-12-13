@@ -2,6 +2,7 @@ import actors from '../services/actorFactory';
 import Hud from '../objects/Hud';
 import LevelProvider from '../services/LevelProvider';
 import behaviors from '../objects/behaviors';
+import Ray from '../geometry/Ray';
 
 var game;
 var levelProvider;
@@ -73,8 +74,11 @@ export default class GameState extends Phaser.State {
     }
 
     foes.forEachAlive((foe) => {
-      if (actor.position.distance(foe.position) < actor.watchDistance) {
-        target = foe;
+      if (!target && actor.position.distance(foe.position) < actor.watchDistance) {
+        let ray = new Ray(actor.x, actor.y, foe.x, foe.y);
+        if (!ray.intersects(levelProvider.backgroundLayer)) {
+          target = foe;
+        }
       }
     });
 
