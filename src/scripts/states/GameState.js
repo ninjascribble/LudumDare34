@@ -86,6 +86,11 @@ export default class GameState extends Phaser.State {
     enemies.destroy(true, true);
   }
 
+  shutdown () {
+    super.shutdown();
+    hud.destroy(true);
+  }
+
   nextLevel () {
     this.cleanUp();
 
