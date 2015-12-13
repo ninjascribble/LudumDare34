@@ -2,20 +2,16 @@ import Bot from '../objects/Bot';
 import Player from '../objects/Player';
 
 var types = {
-
-  // Player
-  DUDE04: 'man04_',
-
-  // Others
-  DUDE01: 'man01_',
-  DUDE02: 'man02_',
-  DUDE03: 'man03_',
-  DUDE05: 'man05_',
-  DUDE06: 'man06_',
-  DUDE07: 'man07_',
-  DUDE08: 'man08_',
-  DUDE09: 'man09_',
-  DUDE10: 'man10_'
+  PLAYER: 'man04_',
+  SQUIRE: 'man01_',
+  KNIGHT: 'man02_',
+  LINK: 'man03_',
+  GOBLIN: 'man05_',
+  WIZARD: 'man06_',
+  WIZARD2: 'man07_',
+  AXEMAN: 'man08_',
+  VIKING: 'man09_',
+  REDMAGE: 'man10_'
 };
 
 export default {

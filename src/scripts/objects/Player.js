@@ -4,7 +4,7 @@ import actors from '../services/actorFactory';
 export default class Player extends Actor {
 
   constructor (x, y, group) {
-    super(x, y, actors.types.DUDE04, group);
+    super(x, y, actors.types.PLAYER, group);
     this.maxHealth = 3;
     this.health = 3;
   }
