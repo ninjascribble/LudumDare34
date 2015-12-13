@@ -31,7 +31,7 @@ export default class Actor extends Phaser.Sprite {
     this.animations.add('idle', idleFrames, 3, true);
     this.animations.add('walk', walkFrames, 8, true);
     this.animations.add('walkUp', walkUpFrames, 6, true);
-    this.animations.add('attack', attackFrames, 6, false);
+    this.animations.add('attack', attackFrames, 15, false);
     this.idle();
 
     this.invincible = false;
@@ -55,7 +55,9 @@ export default class Actor extends Phaser.Sprite {
     if (this.stunned !== true) {
       this.scale.x = Math.abs(this.scale.x) * -1;
       this.body.velocity.x = -60;
-      this.animations.play('walk');
+      if (!this.attacking) {
+        this.animations.play('walk');
+      }
     }
   }
 
@@ -63,27 +65,49 @@ export default class Actor extends Phaser.Sprite {
     if (this.stunned !== true) {
       this.scale.x = Math.abs(this.scale.x);
       this.body.velocity.x = 60;
-      this.animations.play('walk');
+      if (!this.attacking) {
+        this.animations.play('walk');
+      }
     }
   }
 
   moveUp () {
     if (this.stunned !== true) {
       this.body.velocity.y = -60;
-      this.animations.play('walkUp');
+      if (!this.attacking) {
+        this.animations.play('walkUp');
+      }
     }
   }
 
   moveDown () {
     if (this.stunned !== true) {
       this.body.velocity.y = 60;
-      this.animations.play('walk');
+      if (!this.attacking) {
+        this.animations.play('walk');
+      }
     }
   }
 
-  attack () {
-    if (this.stunned !== true) {
-      this.animations.play('attack');
+  attack (callback) {
+    if (this.stunned !== true && !this.attacking) {
+      this.attacking = true;
+      const anim = this.animations.play('attack');
+      anim.enableUpdate = true;
+
+      anim.onUpdate.add(() => {
+        // frame 53 is the sword down position
+        if (anim.frame === 53) {
+          callback();
+        }
+      });
+
+      anim.onComplete.add(() => {
+        this.attacking = false;
+        anim.onComplete.removeAll();
+        anim.onUpdate.removeAll();
+        anim.enableUpdate = false;
+      });
     }
   }
 

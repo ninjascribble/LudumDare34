@@ -7,8 +7,10 @@ export default class Watch extends Behavior {
 
   update (actor) {
     super.update(actor);
-    if (actor.position.distance(this.player) < actor.watchDistance) {
-      actor.playerDetected();
-    }
+    this.signal.dispatch(this.type, actor, (target) => {
+      if (target) {
+        actor.foeDetected(target);
+      }
+    });
   }
 }

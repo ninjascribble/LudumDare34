@@ -1,11 +1,12 @@
-import Behavior from './Behavior';
 import Patrol from './Patrol';
 import Watch from './Watch';
 import Persue from './Persue';
 import Resume from './Resume';
+import Follow from './Follow';
 
-let player = {};
+const onBehaviorCheck = new Phaser.Signal();
 const types = {
+  FOLLOW: 'FOLLOW',
   RESUME: 'RESUME',
   PERSUE: 'PERSUE',
   PATROL: 'PATROL',
@@ -16,10 +17,10 @@ const types = {
 export default {
   get: (config) => {
     if (!config) {
-      return new Watch({ player: player });
+      return new Watch({ type: types.WATCH, signal: onBehaviorCheck });
     }
 
-    config.player = player;
+    config.signal = onBehaviorCheck;
 
     switch (config.type) {
       case types.PATROL:
@@ -30,12 +31,12 @@ export default {
         return new Persue(config);
       case types.RESUME:
         return new Resume(config);
+      case types.FOLLOW:
+        return new Follow(config);
     }
   },
 
-  registerPlayer: (actor) => {
-    player = actor;
-  },
+  types: types,
 
-  types: types
+  onBehaviorCheck: onBehaviorCheck
 };

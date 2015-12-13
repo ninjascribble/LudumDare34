@@ -6,6 +6,7 @@ import behaviors from '../objects/behaviors';
 var game;
 var levelProvider;
 var player;
+var friends;
 var enemies;
 var hud;
 
@@ -22,15 +23,30 @@ export default class GameState extends Phaser.State {
   }
 
   create () {
+    behaviors.onBehaviorCheck.add((behaviorType, actor, callback) => {
+      switch (behaviorType) {
+        case behaviors.types.WATCH:
+          this.watchHandler(actor, callback);
+          break;
+        case behaviors.types.FOLLOW:
+          this.followHandler(actor, callback);
+          break;
+      }
+    });
+
     game.stage.backgroundColor = 'rgb(12, 17, 67)';
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     levelProvider.setIndex(0);
     levelProvider.backgroundLayer.resizeWorld();
 
-    player = actors.buildPlayer(levelProvider.player.x, levelProvider.player.y);
-    behaviors.registerPlayer(player);
+    friends = game.add.group(this.game.world, 'friends');
     enemies = game.add.group(this.game.world, 'enemies');
+
+    player = actors.buildPlayer(levelProvider.player.x, levelProvider.player.y, friends);
+    player.onPersuade.add(() => {
+      this.persuadeCheck();
+    });
 
     levelProvider.enemies.forEach((config) => {
       actors.buildBot(config, enemies);
@@ -42,14 +58,51 @@ export default class GameState extends Phaser.State {
     game.camera.follow(player, Phaser.Camera.FOLLOW_LOCKON);
   }
 
+  followHandler (actor, callback) {
+    callback(actor.position.distance(player.position), player);
+  }
+
+  watchHandler (actor, callback) {
+    let foes;
+    let target;
+
+    if (actor.isFriendly) {
+      foes = enemies;
+    } else {
+      foes = friends;
+    }
+
+    foes.forEachAlive((foe) => {
+      if (actor.position.distance(foe.position) < actor.watchDistance) {
+        target = foe;
+      }
+    });
+
+    callback(target);
+  }
+
+  persuadeCheck () {
+    enemies.forEachAlive((enemy) => {
+      if (player.position.distance(enemy.position) < player.persuadeDistance &&
+        player.persuadeStrength >= enemy.persuadeResistance) {
+        enemy.befriend();
+        enemies.removeChild(enemy);
+        console.dir(enemies.children);
+        friends.add(enemy);
+      }
+    });
+  }
+
   update () {
     if (player.alive !== true) {
       this.game.state.start('GameState', true, true);
     }
 
     game.physics.arcade.collide(player, enemies, (_, enemy) => {
-      player.takeDamage(enemy.atk);
-      this.updateHud();
+      if (!enemy.isFriendly) {
+        player.takeDamage(enemy.atk);
+        this.updateHud();
+      }
     });
     game.physics.arcade.collide(enemies, enemies);
     game.physics.arcade.collide(player, levelProvider.backgroundLayer);
@@ -63,7 +116,12 @@ export default class GameState extends Phaser.State {
       });
       enemies.forEach((child) => {
         game.debug.body(child, 'rgba(255, 0, 0, .6)');
+
+        game.debug.geom(new Phaser.Circle(child.position.x, child.position.y, 70));
       });
+      if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+        game.debug.geom(new Phaser.Circle(player.position.x, player.position.y, 80));
+      }
     }
 
     pixel.context.drawImage(game.canvas, 0, 0, game.width, game.height, 0, 0, pixel.width, pixel.height);
@@ -92,7 +150,6 @@ export default class GameState extends Phaser.State {
     player.x = levelProvider.player.x;
     player.y = levelProvider.player.y;
 
-    behaviors.registerPlayer(player);
     levelProvider.enemies.forEach((config) => {
       actors.buildBot(config, enemies);
     });

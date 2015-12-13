@@ -6,6 +6,8 @@ export default class Bot extends Actor {
     super(x, y, type, group);
     this.speed = 30;
     this.watchDistance = 35;
+    this.isFriendly = false;
+    this.persuadeResistance = 10;
     this.behavior = behaviors.get(behavior);
   }
 
@@ -14,16 +16,22 @@ export default class Bot extends Actor {
     this.behavior.update(this);
   }
 
-  playerDetected () {
+  foeDetected (target) {
     const behaviorConfig = {
       type: behaviors.types.PERSUE,
       position: new Phaser.Point(this.position.x, this.position.y),
-      strayDistance: 30
+      strayDistance: 30,
+      target: target
     };
 
     this.lastBehavior = this.behavior;
     this.lastPosition = behaviorConfig.position;
     this.behavior = behaviors.get(behaviorConfig);
+  }
+
+  befriend () {
+    this.isFriendly = true;
+    this.behavior = behaviors.get({ type: behaviors.types.FOLLOW });
   }
 
   resumeBehavior () {

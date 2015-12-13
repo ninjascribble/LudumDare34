@@ -1,6 +1,6 @@
-import Behavior from './Behavior';
+import Watch from './Watch';
 
-export default class Resume extends Behavior {
+export default class Resume extends Watch {
   constructor (config) {
     super(config);
     this.lastPosition = config.lastPosition;

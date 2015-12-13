@@ -5,6 +5,7 @@ export default class Persue extends Behavior {
     super(config);
     this.lastPosition = config.position;
     this.strayDistance = config.strayDistance;
+    this.target = config.target;
   }
 
   update (actor) {
@@ -14,7 +15,7 @@ export default class Persue extends Behavior {
       actor.resumeBehavior();
     } else {
       actor.animations.play('walk');
-      game.physics.arcade.moveToObject(actor, this.player, actor.speed);
+      game.physics.arcade.moveToObject(actor, this.target, actor.speed);
     }
   }
 }
