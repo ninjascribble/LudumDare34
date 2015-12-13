@@ -14,7 +14,6 @@ const TILESETS = [{
 
 const LEVELS = [{
   background: 'Level01',
-  objects: 'Level01Objects',
   tileset: TILESETS[0],
   player: new Phaser.Point(24, 454),
   enemies: [
@@ -38,16 +37,6 @@ const LEVELS = [{
         ]
       }
     }
-  ]
-}, {
-  background: 'Level02',
-  objects: 'Level02Objects',
-  tileset: TILESETS[0],
-  player: new Phaser.Point(62, 200),
-  enemies: [
-    { type: actors.types.DUDE02, x: 48, y: 24 },
-    { type: actors.types.DUDE02, x: 104, y: 24 },
-    { type: actors.types.DUDE02, x: 88, y: 88 }
   ]
 }];
 
@@ -76,26 +65,16 @@ export default class LevelProvider {
       this.backgroundLayer.destroy();
     }
 
-    if (this.objectsLayer) {
-      this.objectsLayer.destroy();
-    }
-
     let level = LEVELS[this.index];
     let backgroundMap = game.add.tilemap(level.background, level.tileset.width, level.tileset.height);
-    let objectsMap = game.add.tilemap(level.objects, level.tileset.width, level.tileset.height);
 
     this.player = level.player;
     this.enemies = level.enemies;
     this.backgroundLayer = backgroundMap.createLayer(0);
-    this.objectsLayer = objectsMap.createLayer(0);
 
-    backgroundMap.addTilesetImage('Background', level.tileset.key);
+    backgroundMap.addTilesetImage(level.tileset.key, level.tileset.key);
     backgroundMap.setCollision(level.tileset.collide);
 
-    objectsMap.addTilesetImage('Objects', level.tileset.key);
-    objectsMap.setCollision(level.tileset.collide);
-
-    this.objectsLayer.sendToBack();
     this.backgroundLayer.sendToBack();
   }
 }
