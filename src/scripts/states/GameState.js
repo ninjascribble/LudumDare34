@@ -3,6 +3,7 @@ import Hud from '../objects/Hud';
 import LevelProvider from '../services/LevelProvider';
 import behaviors from '../objects/behaviors';
 import Ray from '../geometry/Ray';
+import pathfinding from '../services/pathfinding';
 
 var game;
 var events;
@@ -111,7 +112,9 @@ export default class GameState extends Phaser.State {
       }
     });
     game.physics.arcade.collide(enemies, enemies);
-    game.physics.arcade.collide(friends, levelProvider.backgroundLayer);
+    game.physics.arcade.collide(friends, levelProvider.backgroundLayer, (friend, wall) => {
+      console.dir(friend);
+    });
     game.physics.arcade.collide(enemies, levelProvider.backgroundLayer);
   }
 
@@ -128,6 +131,15 @@ export default class GameState extends Phaser.State {
       if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
         game.debug.geom(new Phaser.Circle(player.position.x, player.position.y, 80));
       }
+
+      friends.forEachAlive((friend) => {
+        if (friend.behavior && friend.behavior.type === 'FOLLOW') {
+          friend.behavior.path.forEach((tile) => {
+            const point = pathfinding.tileToPoint(tile);
+            game.debug.geom(new Phaser.Circle(point.x, point.y, 3));
+          });
+        }
+      });
     }
 
     pixel.context.drawImage(game.canvas, 0, 0, game.width, game.height, 0, 0, pixel.width, pixel.height);

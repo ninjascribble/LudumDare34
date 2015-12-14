@@ -18,6 +18,7 @@ export default class Follow extends Watch {
       // debugger;
       pathfinding.findPathTo(playerPosition, actor, (path) => {
         if (path) {
+          path.shift();
           path.pop();
           this.path = path;
         }
