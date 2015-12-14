@@ -112,10 +112,20 @@ export default class GameState extends Phaser.State {
       }
     });
     game.physics.arcade.collide(enemies, enemies);
-    game.physics.arcade.collide(friends, levelProvider.backgroundLayer, (friend, wall) => {
-      console.dir(friend);
-    });
-    game.physics.arcade.collide(enemies, levelProvider.backgroundLayer);
+    // game.physics.arcade.collide(friends, friends, this.thrash, () => false);
+    game.physics.arcade.collide(friends, levelProvider.backgroundLayer, this.thrash);
+    game.physics.arcade.collide(enemies, levelProvider.backgroundLayer, this.thrash);
+  }
+
+  thrash (a) {
+    if (a.behavior) {
+      const xVel = (Math.random() * 300) - 150;
+      const yVel = (Math.random() * 300) - 150;
+
+      a.behavior.paused = true;
+      a.body.velocity.x += xVel;
+      a.body.velocity.y += yVel;
+    }
   }
 
   render () {
@@ -128,19 +138,20 @@ export default class GameState extends Phaser.State {
 
         game.debug.geom(new Phaser.Circle(child.position.x, child.position.y, 70));
       });
-      if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-        game.debug.geom(new Phaser.Circle(player.position.x, player.position.y, 80));
-      }
 
       friends.forEachAlive((friend) => {
         if (friend.behavior && friend.behavior.type === 'FOLLOW') {
-          friend.behavior.path.forEach((tile) => {
-            const point = pathfinding.tileToPoint(tile);
-            game.debug.geom(new Phaser.Circle(point.x, point.y, 3));
-          });
+          if (friend.behavior.currentTarget) {
+            game.debug.geom(new Phaser.Circle(friend.behavior.currentTarget.x, friend.behavior.currentTarget.y, 3));
+          }
         }
       });
+
+      if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+        game.debug.geom(new Phaser.Circle(player.position.x, player.position.y, 80));
+      }
     }
+
 
     pixel.context.drawImage(game.canvas, 0, 0, game.width, game.height, 0, 0, pixel.width, pixel.height);
   }

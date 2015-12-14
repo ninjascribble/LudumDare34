@@ -18,6 +18,7 @@ const LEVELS = [{
 }];
 
 const walkables = [29, 23, 30, 24, 22, 21, 27, 28, 25, 26];
+let backgroundMap;
 
 export default class LevelProvider {
 
@@ -28,6 +29,21 @@ export default class LevelProvider {
     this.backgroundLayer = null;
     this.playerOrigin = null;
     pathfinding.init();
+  }
+
+  checkMapTile (tile) {
+    const mapData = backgroundMap.layers[0].data;
+    const up = mapData[tile.x][tile.y - 1];
+    const down = mapData[tile.x][tile.y + 1];
+    const left = mapData[tile.x - 1][tile.y];
+    const right = mapData[tile.x + 1][tile.y];
+
+    return {
+      up: walkables.indexOf(up) > -1,
+      down: walkables.indexOf(down) > -1,
+      left: walkables.indexOf(left) > -1,
+      right: walkables.indexOf(right) > -1
+    };
   }
 
   setIndex (index) {
@@ -47,9 +63,7 @@ export default class LevelProvider {
     }
 
     let level = LEVELS[this.index];
-    let backgroundMap = game.add.tilemap(level.background, level.tileset.width, level.tileset.height);
-
-    console.log(backgroundMap);
+    backgroundMap = game.add.tilemap(level.background, level.tileset.width, level.tileset.height);
 
     this.player = playerProperties(backgroundMap);
     this.enemies = enemyProperties(backgroundMap);

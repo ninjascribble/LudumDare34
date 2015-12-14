@@ -5,12 +5,14 @@ function pointToTile (point) {
 }
 
 function tileToPoint (point) {
-  return new Phaser.Point(Math.floor(point.x * 8), Math.floor(point.y * 8));
+  return new Phaser.Point(Math.floor(point.x * 8) + 4, Math.floor(point.y * 8) + 4);
 }
 
 export default {
   init: () => {
     pathfinder = game.plugins.add(Phaser.Plugin.PathFinderPlugin);
+    pathfinder._easyStar.enableDiagonals = true;
+    // debugger;
   },
 
   findPathTo: (target, actor, callback) => {
