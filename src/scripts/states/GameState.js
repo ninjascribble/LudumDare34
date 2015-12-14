@@ -5,7 +5,6 @@ import behaviors from '../objects/behaviors';
 import Ray from '../geometry/Ray';
 import pathfinding from '../services/pathfinding';
 
-var game;
 var events;
 var levelProvider;
 var player;
@@ -14,20 +13,18 @@ var enemies;
 var hud;
 
 export default class GameState extends Phaser.State {
-
   preload () {
-    game = Phaser.game = this.game;
-    events = new Phaser.Signal();
-    events.add(this.eventHandler.bind(this));
-    levelProvider = new LevelProvider(game, events);
     game.load.image('LevelTiles', 'assets/LevelTiles.png');
     game.load.tilemap('Level01', 'assets/Level01.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.atlas('actors', 'assets/8_bit_fantasy/actors.png', 'assets/8_bit_fantasy/actors.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
     game.load.spritesheet('HeartContainers', 'assets/HeartContainers.png', 7, 6);
-    global.state = this;
   }
 
   create () {
+    global.state = this;
+    events = new Phaser.Signal();
+    events.add(this.eventHandler.bind(this));
+    levelProvider = new LevelProvider(game, events);
     behaviors.onBehaviorCheck.add((behaviorType, actor, callback) => {
       switch (behaviorType) {
         case behaviors.types.WATCH:
