@@ -28,9 +28,6 @@ module.exports = {
       from: '../node_modules/phaser/dist',
       to: 'scripts'
     }, {
-      from: '../node_modules/phaser/docs',
-      to: 'phaser/docs'
-    }, {
       from: './lib',
       to: 'scripts'
     }])
