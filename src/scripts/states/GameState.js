@@ -63,7 +63,7 @@ export default class GameState extends Phaser.State {
   }
 
   followHandler (actor, callback) {
-    callback(actor.position.distance(player.position), player);
+    callback(player.position);
   }
 
   watchHandler (actor, callback) {
@@ -94,7 +94,6 @@ export default class GameState extends Phaser.State {
         player.persuadeStrength >= enemy.persuadeResistance) {
         enemy.befriend();
         enemies.removeChild(enemy);
-        console.dir(enemies.children);
         friends.add(enemy);
       }
     });
@@ -112,7 +111,7 @@ export default class GameState extends Phaser.State {
       }
     });
     game.physics.arcade.collide(enemies, enemies);
-    game.physics.arcade.collide(player, levelProvider.backgroundLayer);
+    game.physics.arcade.collide(friends, levelProvider.backgroundLayer);
     game.physics.arcade.collide(enemies, levelProvider.backgroundLayer);
   }
 

@@ -14,7 +14,7 @@ export default class Patrol extends Watch {
 
   moveTo (actor, point) {
     actor.animations.play('walk');
-    game.physics.arcade.moveToXY(actor, this.currentTarget.x, this.currentTarget.y, actor.speed);
+    game.physics.arcade.moveToObject(actor, this.currentTarget, actor.speed);
   }
 
   update (actor) {

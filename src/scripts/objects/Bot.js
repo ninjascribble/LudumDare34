@@ -32,6 +32,8 @@ export default class Bot extends Actor {
   befriend () {
     this.isFriendly = true;
     this.behavior = behaviors.get({ type: behaviors.types.FOLLOW });
+    this.lastBehavior = null;
+    this.lastPosition = null;
   }
 
   resumeBehavior () {

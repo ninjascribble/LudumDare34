@@ -1,4 +1,5 @@
 import Behavior from './Behavior';
+import behaviors from './';
 
 export default class Watch extends Behavior {
   constructor (config) {
@@ -7,7 +8,7 @@ export default class Watch extends Behavior {
 
   update (actor) {
     super.update(actor);
-    this.signal.dispatch(this.type, actor, (target) => {
+    this.signal.dispatch(behaviors.types.WATCH, actor, (target) => {
       if (target) {
         actor.foeDetected(target);
       }

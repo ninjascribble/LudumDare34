@@ -1,4 +1,5 @@
 import actors from './actorFactory';
+import pathfinding from './pathfinding';
 
 const TILESETS = [{
   key: 'LevelTiles',
@@ -16,6 +17,8 @@ const LEVELS = [{
   tileset: TILESETS[0]
 }];
 
+const walkables = [29, 23, 30, 24, 22, 21, 27, 28, 25, 26];
+
 export default class LevelProvider {
 
   constructor (game, signal) {
@@ -24,6 +27,7 @@ export default class LevelProvider {
     this.index = NaN;
     this.backgroundLayer = null;
     this.playerOrigin = null;
+    pathfinding.init();
   }
 
   setIndex (index) {
@@ -52,6 +56,7 @@ export default class LevelProvider {
     this.backgroundLayer = backgroundMap.createLayer(0);
 
     backgroundMap.addTilesetImage(level.tileset.key, level.tileset.key);
+    pathfinding.setGrid(backgroundMap.layers[0].data, walkables);
 
     level.tileset.collide.forEach((obj) => {
       if (obj instanceof Array) {
