@@ -25,12 +25,17 @@ export default class Menu extends Phaser.State {
     pixel.width = pixel.canvas.width;
     pixel.height = pixel.canvas.height;
 
-
     this.titleText = this.game.add.bitmapText(game.world.centerX, 30, '8bit-light', 'Goblinheart', 14);
     this.titleText.anchor.setTo(0.5, 0.5);
 
     this.instructionsText = this.game.add.bitmapText(this.game.world.centerX, 90, '8bit-light', 'press space to start', 8);
     this.instructionsText.anchor.setTo(0.5, 0.5);
+
+    game.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);
+    game.input.keyboard.addKeyCapture(Phaser.Keyboard.UP);
+    game.input.keyboard.addKeyCapture(Phaser.Keyboard.RIGHT);
+    game.input.keyboard.addKeyCapture(Phaser.Keyboard.DOWN);
+    game.input.keyboard.addKeyCapture(Phaser.Keyboard.LEFT);
   }
 
   update () {
