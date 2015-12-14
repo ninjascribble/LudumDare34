@@ -130,36 +130,30 @@ export default class Actor extends Phaser.Sprite {
     let y = 0;
 
     if (this.body.touching.up) {
-      y = 16;
+      y = 64;
     }
     if (this.body.touching.right) {
-      x = -16;
+      x = -64;
     }
     if (this.body.touching.down) {
-      y = -16;
+      y = -64;
     }
     if (this.body.touching.left) {
-      x = 16;
+      x = 64;
     }
 
-    let tween = this.game.add.tween(this).to({
-      x: this.x + x,
-      y: this.y + y
-    }, 100);
+    let ms = 100;
 
-    tween.onComplete.add(() => {
+    this.game.physics.arcade.moveToXY(this, this.x + x, this.y + y, null, ms);
+    this.game.time.events.add(ms, () => {
       if (this.health <= 0) {
         this.kill();
       }
     });
-
-    tween.start();
   }
 
   stun (ms) {
     this.stunned = true;
-    this.body.velocity.x = 0;
-    this.body.velocity.y = 0;
     this.game.time.events.add(ms, () => {
       this.stunned = false;
     });
