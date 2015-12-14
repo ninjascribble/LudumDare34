@@ -4,9 +4,8 @@ const TILESETS = [{
   key: 'LevelTiles',
   width: 8,
   height: 8,
-  collide: [[1, 18], [43, 54]],
+  collide: [[1, 18], [31, 32], [37, 38], [43, 54]],
   callbacks: [
-    { event: 'enterWater', indexes: [31, 32, 37, 38] },
     { event: 'enterAcid', indexes: [33, 34, 39, 40] },
     { event: 'enterLava', indexes: [35, 36, 41, 42] }
   ]
@@ -19,8 +18,9 @@ const LEVELS = [{
 
 export default class LevelProvider {
 
-  constructor (game) {
+  constructor (game, signal) {
     this.game = game;
+    this.signal = signal;
     this.index = NaN;
     this.backgroundLayer = null;
     this.playerOrigin = null;
@@ -64,7 +64,7 @@ export default class LevelProvider {
     level.tileset.callbacks.forEach((obj) => {
       obj.indexes.forEach((i) => {
         backgroundMap.setTileIndexCallback(i, (sprite, tile) => {
-          sprite.takeDamage(tile.properties.atk || 0);
+          this.signal.dispatch({ type: obj.event, actor: sprite, tile: tile });
         });
       });
     });
