@@ -5,6 +5,7 @@ import behaviors from '../objects/behaviors';
 import Ray from '../geometry/Ray';
 
 var game;
+var events;
 var levelProvider;
 var player;
 var friends;
@@ -15,7 +16,9 @@ export default class GameState extends Phaser.State {
 
   preload () {
     game = Phaser.game = this.game;
-    levelProvider = new LevelProvider(game);
+    events = new Phaser.Signal();
+    events.add(this.eventHandler.bind(this));
+    levelProvider = new LevelProvider(game, events);
     game.load.image('LevelTiles', 'assets/LevelTiles.png');
     game.load.tilemap('Level01', 'assets/Level01.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.atlas('actors', 'assets/8_bit_fantasy/actors.png', 'assets/8_bit_fantasy/actors.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
@@ -157,5 +160,18 @@ export default class GameState extends Phaser.State {
     levelProvider.enemies.forEach((config) => {
       actors.buildBot(config, enemies);
     });
+  }
+
+  eventHandler (evt) {
+    switch (evt.type) {
+      case 'enterAcid':
+      case 'enterLava':
+        evt.actor.takeDamage(evt.tile.properties.atk);
+        this.updateHud();
+        break;
+      default:
+        console.warn('unhandled event', evt);
+        break;
+    }
   }
 }

@@ -7,72 +7,108 @@
  <tileset firstgid="1" name="LevelTiles" tilewidth="8" tileheight="8" tilecount="78">
   <image source="../src/assets/LevelTiles.png" trans="00ff00" width="48" height="104"/>
   <tile id="30">
+   <properties>
+    <property name="atk" value="0"/>
+   </properties>
    <animation>
     <frame tileid="30" duration="300"/>
     <frame tileid="31" duration="300"/>
    </animation>
   </tile>
   <tile id="31">
+   <properties>
+    <property name="atk" value="0"/>
+   </properties>
    <animation>
     <frame tileid="31" duration="300"/>
     <frame tileid="30" duration="300"/>
    </animation>
   </tile>
   <tile id="32">
+   <properties>
+    <property name="atk" value="1"/>
+   </properties>
    <animation>
     <frame tileid="32" duration="300"/>
     <frame tileid="33" duration="300"/>
    </animation>
   </tile>
   <tile id="33">
+   <properties>
+    <property name="atk" value="1"/>
+   </properties>
    <animation>
     <frame tileid="33" duration="300"/>
     <frame tileid="32" duration="300"/>
    </animation>
   </tile>
   <tile id="34">
+   <properties>
+    <property name="atk" value="2"/>
+   </properties>
    <animation>
     <frame tileid="34" duration="300"/>
     <frame tileid="35" duration="300"/>
    </animation>
   </tile>
   <tile id="35">
+   <properties>
+    <property name="atk" value="2"/>
+   </properties>
    <animation>
     <frame tileid="35" duration="300"/>
     <frame tileid="34" duration="300"/>
    </animation>
   </tile>
   <tile id="36">
+   <properties>
+    <property name="atk" value="0"/>
+   </properties>
    <animation>
     <frame tileid="36" duration="300"/>
     <frame tileid="37" duration="300"/>
    </animation>
   </tile>
   <tile id="37">
+   <properties>
+    <property name="atk" value="0"/>
+   </properties>
    <animation>
     <frame tileid="37" duration="300"/>
     <frame tileid="36" duration="300"/>
    </animation>
   </tile>
   <tile id="38">
+   <properties>
+    <property name="atk" value="1"/>
+   </properties>
    <animation>
     <frame tileid="38" duration="300"/>
     <frame tileid="39" duration="300"/>
    </animation>
   </tile>
   <tile id="39">
+   <properties>
+    <property name="atk" value="1"/>
+   </properties>
    <animation>
     <frame tileid="39" duration="300"/>
     <frame tileid="38" duration="300"/>
    </animation>
   </tile>
   <tile id="40">
+   <properties>
+    <property name="atk" value="2"/>
+   </properties>
    <animation>
     <frame tileid="40" duration="300"/>
     <frame tileid="41" duration="300"/>
    </animation>
   </tile>
   <tile id="41">
+   <properties>
+    <property name="atk" value="2"/>
+   </properties>
    <animation>
     <frame tileid="41" duration="300"/>
     <frame tileid="40" duration="300"/>
