@@ -1,38 +1,41 @@
 export default class Actor extends Phaser.Sprite {
-  constructor (x, y, animationKey, group) {
+  constructor (x, y, animationKey, group, fna) {
     super(game, x, y, 'actors', 1);
     game.physics.arcade.enableBody(this);
     this.body.setSize(4, 8, 0, 0);
     this.body.collideWorldBounds = true;
     this.anchor.setTo(0.5, 1);
-    const idleFrames = Phaser.Animation.generateFrameNames(animationKey, 1, 2, '', 2);
-    const walkFrames = [
-      `${animationKey}01`,
-      `${animationKey}03`,
-      `${animationKey}04`,
-      `${animationKey}05`
-    ];
-    const walkUpFrames = [
-      `${animationKey}13`,
-      `${animationKey}14`,
-      `${animationKey}15`,
-      `${animationKey}14`
-    ];
-    const attackFrames = [
-      `${animationKey}02`,
-      `${animationKey}07`,
-      `${animationKey}08`,
-      `${animationKey}09`,
-      `${animationKey}08`,
-      `${animationKey}07`,
-      `${animationKey}02`
-    ];
 
-    this.animations.add('idle', idleFrames, 3, true);
-    this.animations.add('walk', walkFrames, 8, true);
-    this.animations.add('walkUp', walkUpFrames, 6, true);
-    this.animations.add('attack', attackFrames, 15, false);
-    this.idle();
+    if (!fna) {
+      const idleFrames = Phaser.Animation.generateFrameNames(animationKey, 1, 2, '', 2);
+      const walkFrames = [
+        `${animationKey}01`,
+        `${animationKey}03`,
+        `${animationKey}04`,
+        `${animationKey}05`
+      ];
+      const walkUpFrames = [
+        `${animationKey}13`,
+        `${animationKey}14`,
+        `${animationKey}15`,
+        `${animationKey}14`
+      ];
+      const attackFrames = [
+        `${animationKey}02`,
+        `${animationKey}07`,
+        `${animationKey}08`,
+        `${animationKey}09`,
+        `${animationKey}08`,
+        `${animationKey}07`,
+        `${animationKey}02`
+      ];
+
+      this.animations.add('idle', idleFrames, 3, true);
+      this.animations.add('walk', walkFrames, 8, true);
+      this.animations.add('walkUp', walkUpFrames, 6, true);
+      this.animations.add('attack', attackFrames, 15, false);
+      this.idle();
+    }
 
     this.invincible = false;
     this.stunned = false;
