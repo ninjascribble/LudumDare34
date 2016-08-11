@@ -25,7 +25,7 @@ module.exports = {
       from: './assets',
       to: 'assets'
     }, {
-      from: '../node_modules/phaser/dist',
+      from: '../node_modules/phaser/build',
       to: 'scripts'
     }, {
       from: './lib',

@@ -3,7 +3,6 @@ import Hud from '../objects/Hud';
 import LevelProvider from '../services/LevelProvider';
 import behaviors from '../objects/behaviors';
 import Ray from '../geometry/Ray';
-import pathfinding from '../services/pathfinding';
 
 var events;
 var levelProvider;
@@ -149,8 +148,7 @@ export default class GameState extends Phaser.State {
       }
     }
 
-
-    pixel.context.drawImage(game.canvas, 0, 0, game.width, game.height, 0, 0, pixel.width, pixel.height);
+    pixel.context.drawImage(game.canvas, 0, 0, pixel.width, pixel.height);
   }
 
   updateHud () {
